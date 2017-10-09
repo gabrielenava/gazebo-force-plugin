@@ -9,16 +9,16 @@
 namespace gazebo
 {
 
-class ApplyWristForce : public ModelPlugin
+class ApplyHandsForce : public ModelPlugin
 {
 public:
     yarp::os::Network yarp;
 
-    ApplyWristForce()
+    ApplyHandsForce()
     {
     }
 
-    ~ApplyWristForce()
+    ~ApplyHandsForce()
     {
         port.close();
     }
@@ -26,8 +26,8 @@ public:
     void Load(physics::ModelPtr _parent, sdf::ElementPtr /*_sdf*/)
     {
         model = _parent;
-        port.open("/Gazebo/ApplyWristForce:i");
-        updateConnection = event::Events::ConnectWorldUpdateBegin(boost::bind(&ApplyWristForce::OnUpdate, this, _1));
+        port.open("/Gazebo/ApplyHandsForce:i");
+        updateConnection = event::Events::ConnectWorldUpdateBegin(boost::bind(&ApplyHandsForce::OnUpdate, this, _1));
 
         l_forearm = model->GetLink("iCub::l_forearm");
         r_forearm = model->GetLink("iCub::r_forearm");
@@ -55,7 +55,7 @@ public:
                 force = math::Vector3::One*b->get(0).asDouble();
                 std::cout << "Applying constant force of magnitude: " << force.GetLength() << " to left and right forearms." << std::endl;
             } else {
-                std::cout << "[ERROR] apply_wrist_force plugin expects exacly 1 or 3 force arguments." << std::endl;
+                std::cout << "[ERROR] apply_hands_force plugin expects exacly 1 or 3 force arguments." << std::endl;
             }
         }
 
@@ -90,6 +90,6 @@ private:
 };
 
 // Register this plugin with the simulator
-GZ_REGISTER_MODEL_PLUGIN(ApplyWristForce)
+GZ_REGISTER_MODEL_PLUGIN(ApplyHandsForce)
 }
 
