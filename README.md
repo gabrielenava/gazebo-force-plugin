@@ -1,4 +1,4 @@
-# gazebo-forcePlugin
+# gazebo-force-plugin
 
 Plugin for using external constant forces in Gazebo.
 
